@@ -1,5 +1,5 @@
 import { IntervalTimer, normalizeConfig, clock } from './timer.js';
-import { loadPreferences, savePreferences, currentExercise } from './preferences.js';
+import { loadPreferences, savePreferences, currentExercise } from './preferences.js?v=20261020-workouts';
 import { ScreenAwake } from './screen-awake.js';
 
 const $ = (id) => document.getElementById(id);
