@@ -57,10 +57,11 @@ export function createPoseGuide() {
     previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     if (!dialog.open) dialog.showModal();
+    dialog.scrollTop = 0;
     if (failed) { fallback(); return; }
     status('3D 모델을 준비하고 있어요…');
     try {
-      const module = await (modulePromise ||= import('./pose-viewer.js?v=20261020-3d'));
+      const module = await (modulePromise ||= import('./pose-viewer.js?v=20261020-athlete'));
       if (!dialog.open || currentEpoch !== epoch) return;
       viewer ||= module.createPoseViewer($('pose-stage'), { onPlayback: playback, onStatus: status });
       $('pose-render-mode').textContent = 'INTERACTIVE 3D';
