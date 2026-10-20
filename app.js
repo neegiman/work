@@ -37,6 +37,8 @@ function toast(message) {
 
 function announce(message) { $('announcement').textContent = message; }
 
+function workLabel() { return ['plank', 'hold'].includes(currentExercise(preferences).id) ? '유지' : '운동'; }
+
 function unlockAudio() {
   if (!sound) return;
   try {
@@ -112,10 +114,15 @@ function buildRoutine() {
   }
   $('prepare-toggle').setAttribute('aria-checked', String(!!config.prepare));
   $('routine-label').textContent = currentExercise(preferences).name;
+  $('work-field-label').textContent = `${workLabel()} 시간`;
+  $('work-input').setAttribute('aria-label', `${workLabel()} 시간 (초)`);
+  document.querySelectorAll('[data-field="work"]').forEach(button => {
+    button.setAttribute('aria-label', `${workLabel()} 시간 5초 ${Number(button.dataset.delta) < 0 ? '줄이기' : '늘리기'}`);
+  });
   $('exercise-select').value = preferences.activeExercise;
   const total = timer.totalMs / 1000;
   $('total-duration').innerHTML = `${Math.floor(total / 60)}<small>분</small> ${String(total % 60).padStart(2, '0')}<small>초</small>`;
-  $('routine-formula').innerHTML = `${config.work}초 유지 × ${config.sets}세트 <span>·</span> ${config.sets === 1 ? '휴식 없이 진행' : config.rest ? `세트 간 ${config.rest}초 휴식` : '휴식 없이 진행'}`;
+  $('routine-formula').innerHTML = `${config.work}초 ${workLabel()} × ${config.sets}세트 <span>·</span> ${config.sets === 1 ? '휴식 없이 진행' : config.rest ? `세트 간 ${config.rest}초 휴식` : '휴식 없이 진행'}`;
   $('total-sets').textContent = String(config.sets).padStart(2, '0');
   $('set-track').replaceChildren();
   for (let index = 0; index < config.sets; index++) {
@@ -165,14 +172,14 @@ function render() {
   document.body.dataset.phase = complete ? 'work' : phase.type;
   document.body.dataset.state = state;
   $('phase-name').textContent = complete ? '완료' : state === 'paused' ? '일시정지' : ready ? '준비' : phase.type === 'rest' ? '휴식 중' : phase.type === 'prepare' ? '준비 중' : '운동 중';
-  $('dial-instruction').textContent = complete ? '오늘의 루틴, 해냈어요!' : state === 'paused' ? '잠시 쉬어가도 괜찮아요' : ready ? '움직일 준비가 됐나요?' : phase.type === 'rest' ? '천천히, 숨을 고르세요' : phase.type === 'prepare' ? '편안하게 자세를 잡으세요' : '그대로, 조금만 더';
-  $('dial-unit').textContent = complete ? '수고했어요' : phase.type === 'rest' ? '휴식 시간' : phase.type === 'prepare' ? '곧 운동이 시작돼요' : '유지 시간';
+  $('dial-instruction').textContent = complete ? '오늘의 루틴, 해냈어요!' : state === 'paused' ? '잠시 쉬어가도 괜찮아요' : ready ? '움직일 준비가 됐나요?' : phase.type === 'rest' ? '천천히, 숨을 고르세요' : phase.type === 'prepare' ? '편안하게 자세를 잡으세요' : workLabel() === '유지' ? '그대로, 조금만 더' : '천천히, 나의 페이스로';
+  $('dial-unit').textContent = complete ? '수고했어요' : phase.type === 'rest' ? '휴식 시간' : phase.type === 'prepare' ? '곧 운동이 시작돼요' : `${workLabel()} 시간`;
   $('current-set').textContent = String(phase.set).padStart(2, '0');
   $('start-label').textContent = running ? '일시정지' : state === 'paused' ? '이어서 하기' : complete ? '한 번 더 하기' : '운동 시작';
   $('start-icon').setAttribute('href', running ? '#i-pause' : '#i-play');
   $('skip-button').disabled = ready || complete;
   $('next-label').textContent = complete ? 'WELL DONE' : 'UP NEXT';
-  $('next-description').innerHTML = complete ? `<strong>${config.sets}세트 완주</strong>` : next ? `${next.type === 'rest' ? '휴식' : `${next.set}세트 유지`} <strong>${next.seconds}초</strong>` : '<strong>루틴 완료</strong>';
+  $('next-description').innerHTML = complete ? `<strong>${config.sets}세트 완주</strong>` : next ? `${next.type === 'rest' ? '휴식' : `${next.set}세트 ${workLabel()}`} <strong>${next.seconds}초</strong>` : '<strong>루틴 완료</strong>';
   $('settings-lock').hidden = ready || complete;
   document.querySelectorAll('.settings-body button, .settings-body input, .settings-body select').forEach((element) => { element.disabled = !ready && !complete; });
   document.querySelectorAll('.set-dot').forEach((dot) => {
