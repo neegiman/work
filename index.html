@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;650;700;750;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=20261021-pose-button">
+  <link rel="stylesheet" href="./style.css?v=20261021-pose-button-aligned">
   <script type="module" src="./app.js?v=20261020-athlete"></script>
 </head>
 <body>
@@ -57,8 +57,7 @@
 
       <div class="workspace">
         <section class="timer-card" aria-label="운동 타이머">
-          <div class="card-topline"><span class="small-label" id="routine-label">플랭크</span><span class="phase-badge" id="phase-badge"><i></i><span id="phase-name">준비</span></span></div>
-          <button type="button" class="pose-open-button" id="pose-open-button" aria-label="플랭크 3D 자세 보기" aria-haspopup="dialog" aria-controls="pose-dialog" hidden><span class="pose-button-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cube"/></svg></span><span class="pose-button-label">3D 자세 보기</span><svg class="pose-button-arrow" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          <div class="card-topline"><span class="small-label" id="routine-label">플랭크</span><div class="timer-top-actions"><button type="button" class="pose-open-button" id="pose-open-button" aria-label="플랭크 3D 자세 보기" aria-haspopup="dialog" aria-controls="pose-dialog" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cube"/></svg><span>3D 자세</span></button><span class="phase-badge" id="phase-badge"><i></i><span id="phase-name">준비</span></span></div></div>
           <div class="dial" id="dial">
             <svg class="dial-svg" viewBox="0 0 340 340" aria-hidden="true"><g id="dial-ticks"></g><circle class="ring-track" cx="170" cy="170" r="146"/><circle class="ring-progress" id="ring-progress" cx="170" cy="170" r="146"/><circle class="ring-cap" id="ring-cap" cx="170" cy="24" r="7"/></svg>
             <div class="dial-content">

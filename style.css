@@ -30,11 +30,11 @@
 @media(max-width:760px){.exercise-picker select{height:42px;font-size:13px}.exercise-picker>button{width:42px;height:42px}.exercise-save-note{font-size:10px}.exercise-form button{min-height:44px}.exercise-form input{font-size:16px}.awake-button{min-height:40px;font-size:9px;margin-top:8px;margin-bottom:-9px}}
 
 .card-topline>.small-label{flex:1;min-width:0;margin-right:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pose-open-button{appearance:none;-webkit-appearance:none;display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:8px 12px;margin:13px 0 0;border:1px solid #d7e4ca;border-radius:13px;background:#f5f9ef;color:#506940;font-size:13px;font-weight:600;line-height:1.5;text-align:left;letter-spacing:-.2px}
-.pose-button-icon{display:grid;place-items:center;width:30px;height:30px;flex-shrink:0;border-radius:9px;background:#e6efdc;color:#718c59}
-.pose-button-icon svg{width:18px;height:18px}
-.pose-button-label{flex:1;min-width:0}
-.pose-open-button .pose-button-arrow{width:17px;height:17px;flex-shrink:0;color:#81966c}
+.timer-top-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.timer-top-actions>.phase-badge,.pose-open-button{display:flex;align-items:center;justify-content:center;gap:5px;flex-shrink:0;width:88px;height:44px;padding:0 8px;border-radius:12px;font-size:12px;font-weight:600;line-height:1;letter-spacing:-.2px;white-space:nowrap}
+.timer-top-actions>.phase-badge{border:1px solid transparent}
+.pose-open-button{appearance:none;-webkit-appearance:none;margin:0;border:1px solid #d7e4ca;background:#f5f9ef;color:#506940}
+.pose-open-button svg{width:16px;height:16px}
 .pose-open-button:hover{background:#edf5e4}
 .pose-open-button:active{background:#e5efd9}
 .pose-dialog{width:min(900px,calc(100% - 48px));max-width:900px;max-height:calc(100svh - 48px);padding:0;border:1px solid #e3e9d9;border-radius:26px;background:#fff;color:var(--ink);box-shadow:0 24px 100px #1c2a2245;overflow:auto;overscroll-behavior:contain}
