@@ -46,6 +46,12 @@ export class ScreenAwake {
           this.setStatus(this.enabled ? 'hidden' : 'off');
           return;
         }
+        // The browser can release a sentinel before its request settles.
+        // Never report an already released lock as keeping the screen awake.
+        if (lock.released) {
+          this.setStatus('interrupted');
+          return;
+        }
         this.lock = lock;
         lock.addEventListener('release', () => {
           if (this.lock !== lock) return;

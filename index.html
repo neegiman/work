@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;650;700;750;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=20261020-title70-v2">
-  <script type="module" src="./app.js?v=20261020-3d"></script>
+  <link rel="stylesheet" href="./style.css?v=20261020-awake2">
+  <script type="module" src="./app.js?v=20261020-awake2"></script>
 </head>
 <body>
   <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
@@ -74,7 +74,8 @@
             <button type="button" class="control-secondary" id="skip-button" aria-label="다음 구간으로 이동" title="다음 구간" disabled><svg><use href="#i-skip"/></svg></button>
           </div>
           <div class="next-up"><span id="next-label">UP NEXT</span><span id="next-description">휴식 <strong>45초</strong></span><span class="next-dot">·</span><span id="remaining-label">전체 <strong id="remaining-time">03:00</strong></span></div>
-          <button type="button" class="awake-button" id="awake-button" aria-pressed="true" aria-label="화면 켜짐 유지 끄기"><svg><use href="#i-screen"/></svg><span>화면 켜짐 유지</span><span class="awake-status" id="awake-status" role="status">요청 중</span></button>
+          <button type="button" class="awake-button" id="awake-button" aria-pressed="true" aria-label="화면 켜짐 유지 끄기" aria-describedby="awake-help"><svg><use href="#i-screen"/></svg><span>화면 켜짐 유지</span><span class="awake-status" id="awake-status" role="status">요청 중</span></button>
+          <p class="awake-help" id="awake-help">화면 켜짐 유지를 요청하고 있어요.</p>
         </section>
 
         <aside class="routine-column">

@@ -22,6 +22,7 @@
 .awake-button{display:flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:8px 12px;margin:12px auto -7px;background:transparent;border-radius:10px;font-size:10px;color:#909b83;max-width:100%}
 .awake-button svg{width:15px;height:15px}
 .awake-button:hover{background:#f5f8f0}
+.awake-help{margin:10px auto 0;max-width:32em;text-align:center;font-size:10px;line-height:1.7;color:#7a856e;word-break:keep-all;overflow-wrap:anywhere}
 .awake-status{font-size:8px;border:1px solid #e6ecde;background:#f5f8f0;color:#93a17f;line-height:1.4;padding:2px 6px;border-radius:5px}
 .awake-button[data-status="active"]{color:#70865c}
 .awake-button[data-status="active"] .awake-status{color:#668849;background:#eff7e7;border-color:#dce9cd}

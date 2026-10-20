@@ -1,6 +1,6 @@
 import { IntervalTimer, normalizeConfig, clock } from './timer.js';
 import { loadPreferences, savePreferences, currentExercise } from './preferences.js?v=20261020-workouts';
-import { ScreenAwake } from './screen-awake.js';
+import { ScreenAwake } from './screen-awake.js?v=20261020-awake2';
 import { createPoseGuide } from './pose-guide.js?v=20261020-3d';
 
 const $ = (id) => document.getElementById(id);
@@ -74,12 +74,23 @@ function beep(kind = 'tick') {
 }
 
 function syncWakeLock(force = false) {
-  return screenAwake.sync(preferences.keepAwake && timer.state !== 'complete', { force });
+  // This is a page preference, so finishing a routine must not turn it off.
+  return screenAwake.sync(preferences.keepAwake, { force });
 }
 
 function renderAwake(status) {
-  const labels = { active: '켜짐', requesting: '요청 중', unsupported: '지원 안 됨', blocked: '재시도', interrupted: '재연결 중', hidden: '대기', off: timer.state === 'complete' && preferences.keepAwake ? '운동 완료' : '꺼짐' };
+  const labels = { active: '켜짐', requesting: '요청 중', unsupported: '지원 안 됨', blocked: '재시도', interrupted: '재연결 중', hidden: '대기', off: '꺼짐' };
+  const help = {
+    active: '타이머가 끝나도 이 화면을 열어둔 동안 유지돼요.',
+    requesting: '화면 켜짐 유지를 요청하고 있어요.',
+    unsupported: '화면 유지를 지원하지 않아요. 최신 Safari에서 다시 열어 주세요.',
+    blocked: '화면 유지를 허용받지 못했어요. 저전력 모드를 확인하고 눌러 재시도하세요.',
+    interrupted: '화면 유지가 해제되어 다시 연결 중이에요. 저전력 모드에서 제한될 수 있어요.',
+    hidden: '다른 앱을 사용하는 동안은 해제되며, 돌아오면 다시 요청해요.',
+    off: '기기의 자동 잠금 설정에 따라 화면이 꺼져요.',
+  };
   $('awake-status').textContent = labels[status];
+  $('awake-help').textContent = help[status];
   $('awake-button').dataset.status = status;
   $('awake-button').setAttribute('aria-pressed', String(preferences.keepAwake));
   $('awake-button').setAttribute('aria-label', !preferences.keepAwake ? '화면 켜짐 유지 켜기' : ['blocked', 'interrupted'].includes(status) ? '화면 켜짐 유지 다시 시도' : '화면 켜짐 유지 끄기');
