@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8f2">
+  <meta name="description" content="30초 유지, 3세트, 세트 간 휴식 45초. 나의 페이스에 맞춰 운동과 휴식을 이어주는 모바일 인터벌 타이머.">
+  <title>PACE — 나만의 운동 리듬</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;650;700;750;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" stroke-width="3.5"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/></symbol>
+    <symbol id="i-skip" viewBox="0 0 24 24"><path d="m5 6 10 6-10 6zM19 6v12"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="m11 4-6 5H2v6h3l6 5zM15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24"><path d="m11 4-6 5H2v6h3l6 5zM16 9l6 6M22 9l-6 6"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h5m4 0h7M4 17h9m4 0h3"/><circle cx="11" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M19 4S6 2 4 11s10 13 14 4c2-5 1-11 1-11ZM6 19l8-9"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M6 12h12M12 6v12"/></symbol>
+    <symbol id="i-screen" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4M12 6v5m-2-3 2-2 2 2"/></symbol>
+  </defs></svg>
+
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="PACE 홈">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>PACE<span class="brand-dot">.</span></span>
+        <span class="brand-description">나만의 운동 리듬</span>
+      </a>
+      <div class="header-actions">
+        <span class="header-caption">MOVE AT YOUR OWN PACE</span>
+        <button class="icon-button" id="sound-button" type="button" aria-label="알림음 끄기" aria-pressed="true" title="알림음 끄기"><svg><use href="#i-sound"/></svg></button>
+        <button class="icon-button" id="fullscreen-button" type="button" aria-label="집중 모드 켜기" aria-pressed="false" title="집중 모드"><svg><use href="#i-expand"/></svg></button>
+      </div>
+    </header>
+
+    <main>
+      <div class="intro">
+        <div><div class="eyebrow"><span></span> A LITTLE MOVEMENT, EVERY DAY</div><h1>오늘도, 나의 페이스로<span>.</span></h1><p>시간은 맡겨두고, 움직임에만 집중하세요.</p></div>
+        <div class="intro-note"><svg><use href="#i-leaf"/></svg><span>작은 루틴이 만드는<br><strong>기분 좋은 변화</strong></span></div>
+      </div>
+
+      <div class="workspace">
+        <section class="timer-card" aria-label="운동 타이머">
+          <div class="card-topline"><span class="small-label" id="routine-label">HOLD & BREATHE</span><span class="phase-badge" id="phase-badge"><i></i><span id="phase-name">준비</span></span></div>
+          <div class="dial" id="dial">
+            <svg class="dial-svg" viewBox="0 0 340 340" aria-hidden="true"><g id="dial-ticks"></g><circle class="ring-track" cx="170" cy="170" r="146"/><circle class="ring-progress" id="ring-progress" cx="170" cy="170" r="146"/><circle class="ring-cap" id="ring-cap" cx="170" cy="24" r="7"/></svg>
+            <div class="dial-content">
+              <span class="dial-instruction" id="dial-instruction">움직일 준비가 됐나요?</span>
+              <div class="timer-value" id="timer-value" role="timer" aria-label="남은 시간 30초">00:30</div>
+              <span class="dial-unit" id="dial-unit">유지 시간</span>
+              <span class="set-chip" id="set-chip"><span id="current-set">01</span><span class="chip-divider"></span><span id="total-sets">03</span><span class="chip-label">SET</span></span>
+            </div>
+          </div>
+          <div class="set-track" id="set-track" aria-label="세트 진행 상황"></div>
+          <div class="timer-controls">
+            <button type="button" class="control-secondary" id="reset-button" aria-label="타이머 초기화" title="초기화"><svg><use href="#i-reset"/></svg></button>
+            <button type="button" class="start-button" id="start-button"><svg><use id="start-icon" href="#i-play"/></svg><span id="start-label">운동 시작</span><span class="button-shortcut">SPACE</span></button>
+            <button type="button" class="control-secondary" id="skip-button" aria-label="다음 구간으로 이동" title="다음 구간" disabled><svg><use href="#i-skip"/></svg></button>
+          </div>
+          <div class="next-up"><span id="next-label">UP NEXT</span><span id="next-description">휴식 <strong>45초</strong></span><span class="next-dot">·</span><span id="remaining-label">전체 <strong id="remaining-time">03:00</strong></span></div>
+          <button type="button" class="awake-button" id="awake-button" aria-pressed="true" aria-label="화면 켜짐 유지 끄기"><svg><use href="#i-screen"/></svg><span>화면 켜짐 유지</span><span class="awake-status" id="awake-status" role="status">요청 중</span></button>
+        </section>
+
+        <aside class="routine-column">
+          <details class="settings-panel" id="settings-panel" open>
+            <summary><div class="settings-title"><span class="section-icon"><svg><use href="#i-sliders"/></svg></span><span>내 루틴 설정<small>나에게 맞는 리듬을 찾아보세요</small></span></div><svg class="settings-chevron"><use href="#i-chevron"/></svg></summary>
+            <div class="settings-body">
+              <div class="exercise-picker"><label class="sr-only" for="exercise-select">운동 선택</label><select id="exercise-select"><option value="hold">유지 운동</option><option value="tabata">타바타</option><option value="stretch">스트레칭</option></select><button type="button" id="add-exercise-button" aria-label="운동 추가" title="운동 추가"><svg><use href="#i-plus"/></svg></button></div>
+              <form id="exercise-form" class="exercise-form" hidden><label for="exercise-name">새 운동 이름</label><input id="exercise-name" type="text" maxlength="40" placeholder="예: 플랭크, 월싯" autocomplete="off" required><div><button type="button" id="cancel-exercise-button">취소</button><button type="submit">추가</button></div></form>
+              <p class="exercise-save-note" id="exercise-save-note">운동별 설정이 자동으로 저장돼요.</p>
+              <div class="settings-fields">
+                <div class="setting-row"><label for="work-input"><span class="field-dot work-dot"></span>유지 시간<small>한 세트에 집중할 시간</small></label><div class="stepper"><button type="button" data-field="work" data-delta="-5" aria-label="유지 시간 5초 줄이기"><svg><use href="#i-minus"/></svg></button><div class="number-field"><input id="work-input" type="number" inputmode="numeric" min="1" max="3600" value="30" aria-label="유지 시간 (초)"><span>초</span></div><button type="button" data-field="work" data-delta="5" aria-label="유지 시간 5초 늘리기"><svg><use href="#i-plus"/></svg></button></div></div>
+                <div class="setting-row"><label for="rest-input"><span class="field-dot rest-dot"></span>휴식 시간<small>세트 사이, 숨 고를 시간</small></label><div class="stepper"><button type="button" data-field="rest" data-delta="-5" aria-label="휴식 시간 5초 줄이기"><svg><use href="#i-minus"/></svg></button><div class="number-field"><input id="rest-input" type="number" inputmode="numeric" min="0" max="3600" value="45" aria-label="휴식 시간 (초)"><span>초</span></div><button type="button" data-field="rest" data-delta="5" aria-label="휴식 시간 5초 늘리기"><svg><use href="#i-plus"/></svg></button></div></div>
+                <div class="setting-row"><label for="sets-input"><span class="field-dot sets-dot"></span>반복 세트<small>오늘의 작은 목표</small></label><div class="stepper"><button type="button" data-field="sets" data-delta="-1" aria-label="세트 1회 줄이기"><svg><use href="#i-minus"/></svg></button><div class="number-field"><input id="sets-input" type="number" inputmode="numeric" min="1" max="30" value="3" aria-label="반복 세트 수"><span>회</span></div><button type="button" data-field="sets" data-delta="1" aria-label="세트 1회 늘리기"><svg><use href="#i-plus"/></svg></button></div></div>
+              </div>
+              <div class="prepare-row"><label for="prepare-toggle">시작 전 준비 시간 <span>5초</span></label><button type="button" class="switch" id="prepare-toggle" role="switch" aria-checked="false" aria-label="시작 전 5초 준비 시간"><span></span></button></div>
+              <p class="settings-lock" id="settings-lock" hidden>시간을 바꾸려면 타이머를 초기화해 주세요.</p>
+              <div class="total-card"><span><svg><use href="#i-clock"/></svg>예상 소요 시간</span><strong id="total-duration">3<small>분</small> 00<small>초</small></strong></div>
+              <div class="routine-formula" id="routine-formula">30초 유지 × 3세트 <span>·</span> 세트 간 45초 휴식</div>
+            </div>
+          </details>
+          <div class="gentle-note"><span class="note-mark">“</span><div><p>잘하는 것보다, 꾸준히 하는 것.</p><span>오늘의 작은 움직임도 충분히 의미 있어요.</span></div><svg><use href="#i-leaf"/></svg></div>
+        </aside>
+      </div>
+
+      <section class="cycle-panel" aria-labelledby="cycle-title"><div class="cycle-header"><h2 id="cycle-title">오늘의 운동 사이클</h2><span><i class="legend-work"></i>운동<i class="legend-rest"></i>휴식</span></div><div class="cycle-strip" id="cycle-strip"></div><p class="cycle-note"><svg><use href="#i-check"/></svg>마지막 세트가 끝나면 자동으로 완료돼요.</p></section>
+      <div class="completion-message" id="completion-message" hidden role="status"><span>수고했어요! 오늘의 루틴을 완주했어요.</span></div>
+    </main>
+    <footer><span>ONE SET AT A TIME.</span><span>몸의 리듬을 따라, 천천히 꾸준하게.</span><span>MADE FOR YOUR PACE <span class="footer-spark">✳</span></span></footer>
+  </div>
+  <div class="sr-only" id="announcement" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>
