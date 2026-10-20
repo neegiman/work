@@ -1,6 +1,7 @@
 import { IntervalTimer, normalizeConfig, clock } from './timer.js';
 import { loadPreferences, savePreferences, currentExercise } from './preferences.js?v=20261020-workouts';
 import { ScreenAwake } from './screen-awake.js';
+import { createPoseGuide } from './pose-guide.js?v=20261020-3d';
 
 const $ = (id) => document.getElementById(id);
 let storage;
@@ -9,6 +10,7 @@ const preferences = loadPreferences(storage);
 let config = { ...currentExercise(preferences).config };
 let sound = preferences.sound;
 const timer = new IntervalTimer(config);
+const poseGuide = createPoseGuide();
 const circumference = 2 * Math.PI * 146;
 let audioContext;
 let toastTimeout;
@@ -114,6 +116,7 @@ function buildRoutine() {
   }
   $('prepare-toggle').setAttribute('aria-checked', String(!!config.prepare));
   $('routine-label').textContent = currentExercise(preferences).name;
+  poseGuide.setExercise(currentExercise(preferences));
   $('work-field-label').textContent = `${workLabel()} 시간`;
   $('work-input').setAttribute('aria-label', `${workLabel()} 시간 (초)`);
   document.querySelectorAll('[data-field="work"]').forEach(button => {
@@ -328,6 +331,7 @@ $('fullscreen-button').addEventListener('click', async () => {
 });
 document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) updateFocus(false); });
 document.addEventListener('keydown', (event) => {
+  if ($('pose-dialog').open) return;
   if (event.code === 'Escape') { updateFocus(false); return; }
   if (event.code !== 'Space' || event.repeat || event.altKey || event.ctrlKey || event.metaKey) return;
   if (event.target.closest('input, button, a, summary, [contenteditable="true"]')) return;
