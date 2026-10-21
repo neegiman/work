@@ -1,4 +1,4 @@
-import { POSTURE_GUIDES, getPosture } from './posture-data.js?v=20261021-reference-3d';
+import { POSTURE_GUIDES, getPosture } from './posture-data.js?v=20261021-reference-3d2';
 import { postureImage, createPostureImageLoader } from './posture-images.js?v=20261021-static-postures';
 
 export function createPoseGuide() {
@@ -106,7 +106,7 @@ export function createPoseGuide() {
     $('pose-render-mode').textContent = 'INTERACTIVE 3D';
     status('3D 모델을 준비하고 있어요…');
     try {
-      const module = await (modulePromise ||= import('./pose-viewer.js?v=20261021-reference-3d'));
+      const module = await (modulePromise ||= import('./pose-viewer.js?v=20261021-reference-3d2'));
       if (!dialog.open || currentEpoch !== epoch) return;
       viewerPromise ||= module.createPoseViewer(stage, {
         onPlayback: value => { if (dialog.open && mode === '3d') playback(value); },

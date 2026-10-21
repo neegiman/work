@@ -1,5 +1,5 @@
 import * as THREE from './vendor/three/three.module.min.js';
-import { createAthlete, framePoseCamera } from './pose-model.js?v=20261021-reference-3d';
+import { createAthlete, framePoseCamera } from './pose-model.js?v=20261021-reference-3d2';
 
 export async function createPoseViewer(container, { onPlayback = () => {}, onStatus = () => {} } = {}) {
   const athlete = await createAthlete();
@@ -7,7 +7,7 @@ export async function createPoseViewer(container, { onPlayback = () => {}, onSta
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setClearColor(0xeee9e2);
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
