@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;650;700;750;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=20261021-pose-button-aligned">
-  <script type="module" src="./app.js?v=20261020-athlete"></script>
+  <link rel="stylesheet" href="./style.css?v=20261021-static-postures">
+  <script type="module" src="./app.js?v=20261021-static-postures"></script>
 </head>
 <body>
   <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
@@ -57,7 +57,7 @@
 
       <div class="workspace">
         <section class="timer-card" aria-label="운동 타이머">
-          <div class="card-topline"><span class="small-label" id="routine-label">플랭크</span><div class="timer-top-actions"><button type="button" class="pose-open-button" id="pose-open-button" aria-label="플랭크 3D 자세 보기" aria-haspopup="dialog" aria-controls="pose-dialog" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cube"/></svg><span>3D 자세</span></button><span class="phase-badge" id="phase-badge"><i></i><span id="phase-name">준비</span></span></div></div>
+          <div class="card-topline"><span class="small-label" id="routine-label">플랭크</span><div class="timer-top-actions"><button type="button" class="pose-open-button" id="pose-open-button" aria-label="플랭크 자세 보기" aria-haspopup="dialog" aria-controls="pose-dialog" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cube"/></svg><span>자세 보기</span></button><span class="phase-badge" id="phase-badge"><i></i><span id="phase-name">준비</span></span></div></div>
           <div class="dial" id="dial">
             <svg class="dial-svg" viewBox="0 0 340 340" aria-hidden="true"><g id="dial-ticks"></g><circle class="ring-track" cx="170" cy="170" r="146"/><circle class="ring-progress" id="ring-progress" cx="170" cy="170" r="146"/><circle class="ring-cap" id="ring-cap" cx="170" cy="24" r="7"/></svg>
             <div class="dial-content">
@@ -110,13 +110,14 @@
     <div class="pose-header"><div><span class="pose-eyebrow">MOVE WITH CONFIDENCE</span><h2 id="pose-title">기본자세</h2></div><button type="button" class="icon-button" id="pose-close-button" aria-label="자세 가이드 닫기" autofocus><svg><use href="#i-close"/></svg></button></div>
     <div class="pose-layout">
       <div class="pose-visual">
-        <div class="pose-stage-wrap"><span class="pose-render-mode" id="pose-render-mode">INTERACTIVE 3D</span><div id="pose-stage" class="pose-stage"></div><span class="pose-phase" id="pose-phase">기본 자세</span></div>
+        <div class="pose-display-controls" role="group" aria-label="자세 표시 방식"><button type="button" id="pose-image-button" aria-pressed="true">자세 이미지</button><button type="button" id="pose-3d-button" aria-pressed="false">3D 둘러보기</button></div>
+        <div class="pose-stage-wrap"><span class="pose-render-mode" id="pose-render-mode">정지 자세</span><div id="pose-stage" class="pose-stage" data-mode="image"><img id="pose-image" width="1536" height="1024" decoding="async" alt="" hidden></div><span class="pose-phase" id="pose-phase">기본 자세</span></div>
         <p class="pose-status" id="pose-status" role="status" hidden></p>
-        <p class="pose-interaction-hint" id="pose-interaction-hint">좌우로 드래그해 돌려보세요 · 키보드 방향키로도 조절할 수 있어요</p>
-        <div class="pose-view-controls" role="group" aria-label="3D 시점 선택"><button type="button" data-pose-view="side" aria-pressed="false">측면</button><button type="button" data-pose-view="front" aria-pressed="false">정면</button><button type="button" data-pose-view="angle" aria-pressed="true">사선</button></div>
+        <p class="pose-interaction-hint" id="pose-interaction-hint">몸의 정렬과 지지점을 확인하세요.</p>
+        <div class="pose-view-controls" id="pose-view-controls" role="group" aria-label="3D 시점 선택" hidden><button type="button" data-pose-view="side" aria-pressed="false">측면</button><button type="button" data-pose-view="front" aria-pressed="false">정면</button><button type="button" data-pose-view="angle" aria-pressed="true">사선</button></div>
         <div class="pose-motion-controls" id="pose-motion-controls" hidden><div role="group" aria-label="팔굽혀펴기 동작 단계"><button type="button" id="pose-top-button" aria-pressed="true">시작 자세</button><button type="button" id="pose-bottom-button" aria-pressed="false">내려간 자세</button></div><button type="button" class="pose-play-button" id="pose-play-button" aria-pressed="false"><svg><use id="pose-play-icon" href="#i-play"/></svg><span id="pose-play-label">동작 재생</span></button></div>
       </div>
-      <div class="pose-info"><span class="pose-info-eyebrow">CHECK YOUR FORM</span><h3 id="pose-subtitle"></h3><ol id="pose-cues" class="pose-cues"></ol><p class="pose-model-note">자세 이해를 돕는 단순화된 모델입니다.<br>초록색 점선과 번호로 정렬 포인트를 확인하세요.</p><p class="pose-source-line">자세 안내 참고 <a id="pose-source" href="https://www.acefitness.org/" target="_blank" rel="noopener noreferrer">ACE</a></p></div>
+      <div class="pose-info"><span class="pose-info-eyebrow">CHECK YOUR FORM</span><h3 id="pose-subtitle"></h3><ol id="pose-cues" class="pose-cues"></ol><p class="pose-model-note" id="pose-model-note">아래 설명과 함께 몸의 정렬을 확인하세요.</p><p class="pose-source-line">자세 안내 참고 <a id="pose-source" href="https://www.acefitness.org/" target="_blank" rel="noopener noreferrer">ACE</a></p></div>
     </div>
     <div class="pose-footer"><span>바른 자세로, 나의 페이스대로.</span><button type="button" id="pose-done-button">자세 확인했어요<svg><use href="#i-check"/></svg></button></div>
   </dialog>

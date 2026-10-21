@@ -1,7 +1,7 @@
 import { IntervalTimer, normalizeConfig, clock } from './timer.js';
 import { loadPreferences, savePreferences, currentExercise } from './preferences.js?v=20261020-workouts';
 import { ScreenAwake } from './screen-awake.js?v=20261020-awake2';
-import { createPoseGuide } from './pose-guide.js?v=20261020-athlete';
+import { createPoseGuide } from './pose-guide.js?v=20261021-static-postures';
 
 const $ = (id) => document.getElementById(id);
 let storage;
