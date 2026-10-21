@@ -1,11 +1,11 @@
-import { POSTURE_GUIDES, getPosture } from './posture-data.js?v=20261020-3d';
+import { POSTURE_GUIDES, getPosture } from './posture-data.js?v=20261021-reference-3d';
 import { postureImage, createPostureImageLoader } from './posture-images.js?v=20261021-static-postures';
 
 export function createPoseGuide() {
   const $ = id => document.getElementById(id);
   const dialog = $('pose-dialog'), button = $('pose-open-button'), stage = $('pose-stage'), image = $('pose-image');
   let guide = null, viewer = null, modulePromise, epoch = 0, previousOverflow = '';
-  let mode = 'image', depth = 0, threeReady = false;
+  let mode = '3d', depth = 0, threeReady = false, viewerPromise;
   const loadImage = createPostureImageLoader(src => new Promise((resolve, reject) => {
     const loaded = new Image();
     loaded.decoding = 'async';
@@ -65,14 +65,14 @@ export function createPoseGuide() {
     $('pose-view-controls').hidden = !is3D;
     $('pose-motion-controls').hidden = guide.id !== 'pushup';
     $('pose-motion-controls').dataset.mode = mode;
-    $('pose-play-button').hidden = !is3D;
+    $('pose-play-button').hidden = true;
     $('pose-play-button').disabled = !threeReady;
     document.querySelectorAll('[data-pose-view]').forEach(element => { element.disabled = !threeReady; });
     $('pose-interaction-hint').textContent = is3D
       ? '좌우로 드래그해 돌려보세요 · 키보드 방향키로도 조절할 수 있어요'
       : guide.id === 'pushup' ? '시작 자세와 내려간 자세를 비교해 보세요.' : '팔꿈치의 위치와 몸의 정렬을 확인하세요.';
     $('pose-model-note').textContent = is3D
-      ? '자세 이해를 돕는 단순화된 모델입니다. 초록색 점선과 번호로 정렬 포인트를 확인하세요.'
+      ? '정지 시안의 체형·운동복·색감을 참고해 구성한 3D 모델입니다. 회전하며 몸의 정렬과 지지점을 확인하세요.'
       : '자세 이해를 돕는 정지 이미지입니다. 설명과 함께 몸의 정렬과 지지점을 확인하세요.';
     const canvas = stage.querySelector('canvas');
     if (canvas) canvas.hidden = !is3D;
@@ -106,12 +106,14 @@ export function createPoseGuide() {
     $('pose-render-mode').textContent = 'INTERACTIVE 3D';
     status('3D 모델을 준비하고 있어요…');
     try {
-      const module = await (modulePromise ||= import('./pose-viewer.js?v=20261020-athlete'));
+      const module = await (modulePromise ||= import('./pose-viewer.js?v=20261021-reference-3d'));
       if (!dialog.open || currentEpoch !== epoch) return;
-      viewer ||= module.createPoseViewer(stage, {
-        onPlayback: playback,
+      viewerPromise ||= module.createPoseViewer(stage, {
+        onPlayback: value => { if (dialog.open && mode === '3d') playback(value); },
         onStatus: message => { if (dialog.open && mode === '3d') status(message); },
       });
+      viewer = await viewerPromise;
+      if (!dialog.open || currentEpoch !== epoch) { if (mode === 'image') stage.querySelectorAll('canvas').forEach(canvas => { canvas.hidden = true; }); return; }
       stage.querySelector('canvas').hidden = false;
       viewer.setExercise(currentGuide.id);
       if (currentGuide.id === 'pushup') viewer.setDepth(selectedDepth);
@@ -122,6 +124,7 @@ export function createPoseGuide() {
     } catch {
       if (!dialog.open || currentEpoch !== epoch) return;
       modulePromise = undefined;
+      viewerPromise = undefined;
       if (!viewer) stage.querySelectorAll('canvas').forEach(canvas => canvas.remove());
       mode = 'image';
       await renderSelected();
@@ -131,7 +134,7 @@ export function createPoseGuide() {
 
   async function open() {
     if (!guide || dialog.open) return;
-    mode = 'image'; depth = 0;
+    mode = '3d'; depth = 0;
     fillGuide();
     previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -157,7 +160,6 @@ export function createPoseGuide() {
   }));
   $('pose-image-button').addEventListener('click', () => { mode = 'image'; renderSelected(); });
   $('pose-3d-button').addEventListener('click', () => { mode = '3d'; renderSelected(); });
-  $('pose-play-button').addEventListener('click', () => viewer?.togglePlayback());
   function selectDepth(value) {
     depth = value;
     if (mode === '3d' && threeReady) viewer.setDepth(value);
@@ -169,7 +171,7 @@ export function createPoseGuide() {
     setExercise(exercise) {
       guide = POSTURE_GUIDES[exercise.id] || null;
       button.hidden = !guide;
-      if (guide) button.setAttribute('aria-label', `${guide.name} 자세 보기`);
+      if (guide) button.setAttribute('aria-label', `${guide.name} 3D 자세 보기`);
     },
   };
 }

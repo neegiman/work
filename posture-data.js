@@ -40,22 +40,22 @@ function elbowBetween(shoulder, wrist, side) {
 export function getPosture(exercise, depth = 0) {
   if (!POSTURE_GUIDES[exercise]) throw new RangeError('Unknown posture');
   const amount = Math.max(0, Math.min(1, Number(depth) || 0));
-  const angle = exercise === 'plank' ? Math.asin(0.27 / 1.8) : 0.33 + (0.055 - 0.33) * amount;
+  const angle = exercise === 'plank' ? Math.asin(0.27 / 1.8) : 0.31 + (0.10 - 0.31) * amount;
   const direction = [Math.cos(angle), Math.sin(angle), 0];
   const ankle = [-1.22, 0.18, 0];
-  const hip = add(ankle, scale(direction, 0.96));
+  const hip = add(ankle, scale(direction, 1.1));
   const shoulder = add(ankle, scale(direction, 1.8));
   const head = add(shoulder, scale(direction, 0.37));
   const sides = [-1, 1].map(side => {
     const shoulderJoint = add(shoulder, [0, 0, side * 0.25]);
     const wrist = exercise === 'plank'
       ? [shoulder[0] + 0.33, 0.11, side * 0.25]
-      : [0.53, 0.115, side * 0.34];
+      : [0.53, 0.09, side * 0.34];
     const elbow = exercise === 'plank' ? [shoulder[0], 0.11, side * 0.25] : elbowBetween(shoulderJoint, wrist, side);
     return {
       shoulder: shoulderJoint, elbow, wrist, hand: add(wrist, [0.095, -0.035, 0]),
       hip: add(hip, [0, 0, side * 0.15]),
-      knee: add(add(ankle, scale(direction, 0.49)), [0, 0, side * 0.145]),
+      knee: add(add(ankle, scale(direction, 0.55)), [0, 0, side * 0.145]),
       ankle: add(ankle, [0, 0, side * 0.14]),
       toe: [-1.12, 0.075, side * 0.14],
     };
